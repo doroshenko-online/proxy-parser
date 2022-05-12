@@ -1,0 +1,15 @@
+version: "3.9"
+services:
+  postgres-proxy:
+    image: postgres:14.1-alpine
+    container_name: postgres-proxy
+    restart: always
+    environment:
+      POSTGRES_DB: "proxy"
+      POSTGRES_USER: "dimad"
+      POSTGRES_PASSWORD: "F27gk9LeN"
+      PGDATA: "/var/lib/postgresql/data/pgdata"
+    ports:
+      - "65432:5432"
+    volumes:
+      - /var/data/postgres:/var/lib/postgresql/data:delegated
