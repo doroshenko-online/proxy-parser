@@ -3,6 +3,8 @@ DROP TABLE IF EXISTS protocols;
 DROP TABLE IF EXISTS resources;
 DROP TABLE IF EXISTS user_roles;
 DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS actions;
+DROP TABLE IF EXISTS logs;
 
 CREATE TABLE protocols (
   id SERIAL NOT NULL PRIMARY KEY,
@@ -50,6 +52,21 @@ CREATE TABLE users (
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
+CREATE TABLE actions (
+  id SERIAL NOT NULL PRIMARY KEY,
+  action_name varchar(20) NOT NULL UNIQUE
+);
+
+CREATE TABLE logs (
+  id SERIAL NOT NULL PRIMARY KEY,
+  action int NOT NULL,
+  action_datetime TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  action_result json DEFAULT NULL,
+  FOREIGN KEY (action)
+  REFERENCES actions (id)
+  ON DELETE CASCADE
+);
+
 INSERT INTO user_roles (role_name, priority)
 VALUES
   ('superadmin', 0),
@@ -62,3 +79,9 @@ VALUES
   ('http'),
   ('https'),
   ('socks');
+
+INSERT INTO actions (action_name)
+VALUES
+  ('proxy_check'),
+  ('resource_check'),
+  ('user_visit');
