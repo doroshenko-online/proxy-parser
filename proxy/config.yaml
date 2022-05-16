@@ -3,12 +3,15 @@ Database:
   port: 65432
   user: "dimad"
   password: "F27gk9LeN"
+  database: "proxy"
 
 App:
   host: '0.0.0.0'
   port: 7890
   superuser: "dimad"
   password: "F27gk9LeN"
+  check_resource_timeout: '1d'
+  check_proxy_timeout: '1h'
 
 Redis:
   host: '127.0.0.1'

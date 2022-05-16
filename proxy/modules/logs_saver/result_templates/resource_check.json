@@ -3,5 +3,6 @@
     "resource_name": null,
     "resource_addr": null,
     "available": null,
-    "check_datetime": null
+    "check_datetime": null,
+    "status_code": null
 }

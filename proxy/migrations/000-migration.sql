@@ -76,9 +76,10 @@ VALUES
 
 INSERT INTO protocols (protocol_name)
 VALUES
-  ('http'),
-  ('https'),
-  ('socks');
+  (1, 'http'),
+  (2, 'https'),
+  (3, 'socks4'),
+  (4, 'socks5');
 
 INSERT INTO actions (action_name)
 VALUES
