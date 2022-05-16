@@ -16,8 +16,14 @@ if __name__ == '__main__':
     parser.add_argument("--conf")
     args = parser.parse_args()
 
+    # init paths
     path = args.path
     static_path =os.path.join(path, 'static')
+    selenium_drivers_path = os.path.join(path, 'selenium_drivers')
 
+    chrome_driver = os.path.join(selenium_drivers_path, 'chromedriver')  # ver. 101
+    gecko_driver = os.path.join(selenium_drivers_path, 'geckodriver')  # ver. 0.32
+
+    # load config
     conf_file = open(args.conf, 'r')
     conf = yaml.load(conf_file, CLoader)
