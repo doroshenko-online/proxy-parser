@@ -1,7 +1,7 @@
 from proxy.models.registry import Registry
 
 
-class Proxy:
+class ProxyModel:
 
     def __init__(self, data) -> None:
         self.ip = data.get('ip')

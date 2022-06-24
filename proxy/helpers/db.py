@@ -1,8 +1,10 @@
 import asyncpg
+
 from proxy.helpers.logger import log
 
 class Db:
 
+    db_connector = None
 
     def __init__(self, conf) -> None:
         self.database_conf = conf.get('Database')
@@ -40,4 +42,18 @@ class Db:
                 message="Connect to db successfully",
                 level="info"
             )
-            return conn
+            self.db_connector = conn
+            return self.db_connector
+
+    @classmethod
+    async def _set_db_conector(cls, conf: dict) -> None:
+        if cls.db_connector is None:
+            db = cls(conf)
+            cls.db_connector = await db.connect()
+
+    @classmethod
+    async def get_db_connector(cls, conf: dict = None):
+        if cls.db_connector is None and conf:
+            connector = await cls._set_db_conector(conf)
+
+        return connector

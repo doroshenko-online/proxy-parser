@@ -5,14 +5,17 @@ import os
 from yaml import load, CLoader
 import yaml
 
-from proxy.entrypoints.parse_proxies import entrypoint
+from proxy.entrypoints import entrypoint_parser
 from proxy.helpers.logger import log
+from proxy.models.registry import DriversEnum
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument("--path")
-    parser.add_argument("--conf")
+    parser.add_argument("--path", help='path to root project directory')
+    parser.add_argument("--conf", help='path to config file')
+    parser.add_argument("--gecko", action='store_true', help='Use geckodriver. Chromedriver is default')
     args = parser.parse_args()
+
 
     # init paths
     path = args.path
@@ -23,6 +26,11 @@ if __name__ == '__main__':
         raise Exception
 
     static_path =os.path.join(main_path, 'static')
+
+    if args.gecko:
+        use_driver = DriversEnum.gecko.value
+    else:
+        use_driver = DriversEnum.chrome.value
 
     selenium_drivers_path = os.path.join(main_path, 'selenium_drivers')
 
@@ -41,5 +49,5 @@ if __name__ == '__main__':
     conf = yaml.load(conf_file, CLoader)
 
     log('Run parser process', 'info')
-    parser_process = Process(target=entrypoint, kwargs={'static': static_path, 'chrome': chrome_driver, 'gecko': gecko_driver, 'use_driver': 1})
+    parser_process = Process(target=entrypoint_parser, kwargs={'static': static_path, 'chrome': chrome_driver, 'gecko': gecko_driver, 'use_driver': use_driver, 'conf': conf})
     parser_process.start()

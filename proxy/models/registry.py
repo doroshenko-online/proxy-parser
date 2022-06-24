@@ -2,11 +2,11 @@ from enum import Enum
 from typing import Optional
 
 from proxy.helpers.logger import log
-from proxy.models.protocol import Protocol
-from proxy.models.resource import Resource
+from proxy.models.protocol import ProtocolModel
+from proxy.models.resource import ResourceModel
 from proxy.models.users.user_role import UserRole
 
-from proxy.modules.logs_saver.models.base_action import BaseAction
+from proxy.modules.logs_saver.models.actions import BaseAction
 
 
 class DriversEnum(Enum):
@@ -24,18 +24,15 @@ class Registry:
     static_path = None
     drivers = {DriversEnum.off.value: None}
     driver = None
+    db_connector = None
 
     @classmethod
-    def get_protocol(cls, protocol_id: str) -> Optional[Protocol]:
-        # TODO: get protocol by id from registry
-
+    def get_protocol(cls, protocol_id: int) -> Optional[ProtocolModel]:
         if protocol_id:
-            pass
-        else:
-            return None
+            return cls.protocols.get(protocol_id)
 
     @classmethod
-    def get_resource(cls, recource_id: str) -> Optional[Resource]:
+    def get_resource(cls, recource_id: int) -> Optional[ResourceModel]:
         # TODO: get recource by id from registry
 
         if recource_id:
@@ -44,17 +41,9 @@ class Registry:
             return None
 
     @classmethod
-    def get_user_role(cls, role_id: str) -> Optional[UserRole]:
+    def get_user_role(cls, role_id: int) -> Optional[UserRole]:
         # TODO: get user_role by id from registry
         if role_id:
-            pass
-        else:
-            return None
-
-    @classmethod
-    def get_action(cls, action_id: str) -> Optional[BaseAction]:
-        # TODO: get action by id from registry
-        if action_id:
             pass
         else:
             return None
@@ -64,8 +53,27 @@ class Registry:
         """
         Load registry info
         """
-        # TODO: load protocols
-        # TODO: load resources
-        # TODO: load user_roles
-        # TODO: load actions
+        await cls._load_protocols()
+        await cls._load_resources()
+        await cls._load_user_roles()
+        await cls._load_actions()
         log('Registry loaded', 'info')
+
+    @classmethod
+    async def _load_protocols(cls) -> None:
+        for proto in await ProtocolModel.get_protocols(cls.db_connector):
+            cls.protocols[proto._id] = proto
+    @classmethod
+    async def _load_resources(cls) -> None:
+        for res in await ResourceModel.get_resources(cls.db_connector):
+            cls.resources[res._id] = res
+
+    @classmethod
+    async def _load_user_roles(cls) -> None:
+        for role in await UserRole.get_roles(cls.db_connector):
+            cls.user_roles[role._id] = role
+
+    @classmethod
+    async def _load_actions(cls) -> None:
+        for action in await BaseAction.get_actions(cls.db_connector):
+            cls.actions[action._id] = action

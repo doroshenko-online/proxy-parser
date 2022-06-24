@@ -72,7 +72,8 @@ VALUES
   ('superadmin', 0),
   ('admin', 1),
   ('api_user', 2),
-  ('web_user', 3);
+  ('web_user', 3),
+  ('guest', 4);
 
 INSERT INTO protocols (protocol_name)
 VALUES
