@@ -1,5 +1,5 @@
 import asyncpg
-from app import log
+from proxy.helpers.logger import log
 
 class Db:
 

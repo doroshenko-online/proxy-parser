@@ -13,7 +13,7 @@ class Protocol:
         return self._id
 
     @staticmethod
-    async def get_protocol_by_type(protocol_type: str) -> Protocol:
+    async def get_protocol_by_type(protocol_type: str):
         '''
         Get protocol object by type
         @param protocol_type: protocol name
