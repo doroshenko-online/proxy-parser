@@ -28,25 +28,15 @@ class Registry:
 
     @classmethod
     def get_protocol(cls, protocol_id: int) -> Optional[ProtocolModel]:
-        if protocol_id:
-            return cls.protocols.get(protocol_id)
+        return cls.protocols.get(protocol_id)
 
     @classmethod
     def get_resource(cls, recource_id: int) -> Optional[ResourceModel]:
-        # TODO: get recource by id from registry
-
-        if recource_id:
-            pass
-        else:
-            return None
+        return cls.resources.get(recource_id)
 
     @classmethod
     def get_user_role(cls, role_id: int) -> Optional[UserRole]:
-        # TODO: get user_role by id from registry
-        if role_id:
-            pass
-        else:
-            return None
+        return cls.user_roles.get(role_id)
 
     @classmethod
     async def load_registry(cls) -> None:

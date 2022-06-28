@@ -49,5 +49,5 @@ if __name__ == '__main__':
     conf = yaml.load(conf_file, CLoader)
 
     log('Run parser process', 'info')
-    parser_process = Process(target=entrypoint_parser, kwargs={'static': static_path, 'chrome': chrome_driver, 'gecko': gecko_driver, 'use_driver': use_driver, 'conf': conf})
+    parser_process = Process(target=entrypoint_parser, name='Parser1', kwargs={'static': static_path, 'chrome': chrome_driver, 'gecko': gecko_driver, 'use_driver': use_driver, 'conf': conf})
     parser_process.start()

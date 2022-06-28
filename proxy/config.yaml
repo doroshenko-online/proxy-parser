@@ -12,6 +12,7 @@ App:
   password: "F27gk9LeN"
   check_resource_timeout: '1d'
   check_proxy_timeout: '1h'
+  proxy_parse_timeout: '3h'
 
 Redis:
   host: '127.0.0.1'
