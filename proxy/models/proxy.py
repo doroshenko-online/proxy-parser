@@ -1,6 +1,8 @@
 class ProxyModel:
 
-    def __init__(self, data) -> None:
+    def __init__(self, db_connector, data) -> None:
+        self.db_connector = db_connector
+
         self.ip = data.get('ip')
         self.port = data.get('port')
         self.protocol_id = data.get('protocol_id', '')
