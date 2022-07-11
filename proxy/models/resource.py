@@ -15,8 +15,7 @@ class ResourceModel:
         self.addr = data.get('addr')
         self.updated_at = data.get('updated_at')
         self.created_at = data.get('created_at')
-        self.handler = (getattr(ParserHandlersEnum, self.name).value)()
-        self.handler.model = self
+        self.handler = (getattr(ParserHandlersEnum, self.name).value)(resource_model=self)
 
     @classmethod
     async def get_resources(cls, db_connector: Connection) -> List[SelfResource]:
